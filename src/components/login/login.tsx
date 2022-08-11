@@ -6,9 +6,9 @@ function Login() {
     <main className={styles.main_content}>
       <div className={styles.logo}>
         <h1>DELIVERY</h1>
-        <p>Mais do que comida, entregamos amor!</p>
+        <p>Mais que comida, entregamos amor!</p>
       </div>
-      <aside className={styles.form}>
+      <aside className={styles.form_page}>
         <LoginForm />
       </aside>
     </main>
