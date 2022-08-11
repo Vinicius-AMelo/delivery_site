@@ -13,7 +13,7 @@ const initialState: IFormState = {
 }
 
 export const loginFormSlice = createSlice({
-  name: 'counter',
+  name: 'loginForm',
   initialState,
   reducers: {
     getEmail: (state, action: PayloadAction<string>) => {
@@ -22,7 +22,18 @@ export const loginFormSlice = createSlice({
     getPassword: (state, action: PayloadAction<string>) => {
       state.password = action.payload
     },
-    handleForm: (state) => { },
+    handleForm: (state) => {
+      axios
+        .post('http://localhost/users/login', {
+          email: state.email,
+          password: state.password,
+        })
+        .then((res) => console.log(res.data))
+        .catch((e) => {
+          console.log(e.response.data)
+          console.log(e.response.status)
+        })
+    },
   },
 })
 
