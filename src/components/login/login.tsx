@@ -1,15 +1,91 @@
+/* eslint-disable react/jsx-no-bind */
+import axios from 'axios'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+
+import {
+  getEmail,
+  getName,
+  getPassword,
+  getRole,
+  login,
+} from '../../features/loginForm/loginFormSlice'
 import styles from '../../scss/login.module.scss'
+import { RootState } from '../../store/store'
 import LoginForm from './loginForm/loginForm'
+import RegisterForm from './registerForm/registerForm'
 
 function Login() {
+  const [signInUp, setSignInUp] = useState<string>('SignUp')
+
+  const formValues = useSelector((state: RootState) => state.form)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getName(''))
+    dispatch(getEmail(''))
+    dispatch(getPassword(''))
+    dispatch(getRole(''))
+  }, [signInUp])
+
+  function register() {
+    axios
+      .post('http://localhost/users', {
+        name: formValues.name,
+        email: formValues.email,
+        password: formValues.password,
+        role: formValues.role,
+      })
+      .then((res) => console.log(res))
+      .catch((e) => console.log(e))
+  }
+
+  function loginValidate() {
+    dispatch(login('idle'))
+    axios
+      .post('http://localhost/users/login', {
+        email: formValues.email,
+        password: formValues.password,
+      })
+      .then((res) => {
+        console.log(res)
+        dispatch(login('logged'))
+      })
+      .catch((e) => {
+        console.log(e)
+        dispatch(login('incorrect'))
+      })
+  }
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    if (signInUp === 'SignUp') {
+      register()
+    } else if (signInUp === 'SignIn') {
+      loginValidate()
+    }
+  }
+
   return (
     <main className={styles.main_content}>
       <div className={styles.logo}>
         <h1>DELIVERY</h1>
         <p>Mais que comida, entregamos amor!</p>
       </div>
+
       <aside className={styles.form_page}>
-        <LoginForm />
+        <div className={styles.buttons}>
+          <button type="button" onClick={() => setSignInUp('SignIn')}>
+            SignIn
+          </button>
+          <button type="button" onClick={() => setSignInUp('SignUp')}>
+            SignUp
+          </button>
+        </div>
+
+        {signInUp === 'SignIn' && <LoginForm handleSubmit={handleSubmit} />}
+
+        {signInUp === 'SignUp' && <RegisterForm handleSubmit={handleSubmit} />}
       </aside>
     </main>
   )
