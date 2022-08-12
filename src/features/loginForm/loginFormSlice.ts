@@ -13,7 +13,7 @@ const initialState: IFormState = {
   name: '',
   email: '',
   password: '',
-  role: '',
+  role: 'default',
   logged: 'idle',
 }
 
@@ -31,7 +31,7 @@ export const loginFormSlice = createSlice({
       state.password = action.payload
     },
     getRole: (state, action: PayloadAction<string>) => {
-      state.password = action.payload
+      state.role = action.payload
     },
     login: (state, action: PayloadAction<string>) => {
       state.logged = action.payload
@@ -39,7 +39,6 @@ export const loginFormSlice = createSlice({
   },
 })
 
-export const { getName, getEmail, getPassword, getRole, login } =
-  loginFormSlice.actions
+export const { getName, getEmail, getPassword, getRole, login } = loginFormSlice.actions
 
 export default loginFormSlice.reducer

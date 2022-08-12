@@ -1,10 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import {
-  getEmail,
-  getPassword,
-} from '../../../features/loginForm/loginFormSlice'
+import { getEmail, getPassword } from '../../../features/loginForm/loginFormSlice'
 import styles from '../../../scss/login.module.scss'
 import { RootState } from '../../../store/store'
 
@@ -33,6 +30,9 @@ function LoginForm({ handleSubmit }: any) {
 
         {formValues.logged === 'incorrect' && (
           <p className={styles.error}>Email e/ou senha não encontrados.</p>
+        )}
+        {formValues.logged === 'logged' && (
+          <p className={styles.success}>Login bem-sucedido, redirecionando...</p>
         )}
 
         <button type="submit">Logar</button>

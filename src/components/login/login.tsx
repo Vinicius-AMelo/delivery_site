@@ -21,11 +21,15 @@ function Login() {
   const formValues = useSelector((state: RootState) => state.form)
   const dispatch = useDispatch()
 
-  useEffect(() => {
+  function clearForm() {
     dispatch(getName(''))
     dispatch(getEmail(''))
     dispatch(getPassword(''))
-    dispatch(getRole(''))
+    dispatch(getRole('default'))
+  }
+
+  useEffect(() => {
+    clearForm()
   }, [signInUp])
 
   function register() {
@@ -36,7 +40,10 @@ function Login() {
         password: formValues.password,
         role: formValues.role,
       })
-      .then((res) => console.log(res))
+      .then((res) => {
+        clearForm()
+        console.log(res)
+      })
       .catch((e) => console.log(e))
   }
 
@@ -49,6 +56,7 @@ function Login() {
       })
       .then((res) => {
         console.log(res)
+        clearForm()
         dispatch(login('logged'))
       })
       .catch((e) => {
@@ -75,11 +83,11 @@ function Login() {
 
       <aside className={styles.form_page}>
         <div className={styles.buttons}>
-          <button type="button" onClick={() => setSignInUp('SignIn')}>
-            SignIn
+          <button type="button" id={styles.signUp} onClick={() => setSignInUp('SignUp')}>
+            Cadastrar
           </button>
-          <button type="button" onClick={() => setSignInUp('SignUp')}>
-            SignUp
+          <button type="button" id={styles.signIn} onClick={() => setSignInUp('SignIn')}>
+            Entrar
           </button>
         </div>
 

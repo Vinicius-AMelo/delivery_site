@@ -1,12 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import {
-  getEmail,
-  getName,
-  getPassword,
-  getRole,
-} from '../../../features/loginForm/loginFormSlice'
+import { getEmail, getName, getPassword, getRole } from '../../../features/loginForm/loginFormSlice'
 import styles from '../../../scss/login.module.scss'
 import { RootState } from '../../../store/store'
 
@@ -39,7 +34,14 @@ function RegisterForm({ handleSubmit }: any) {
           onChange={(e) => dispatch(getPassword(e.target.value))}
           value={formValues.password}
         />
-        <select name="role" onChange={(e) => dispatch(getRole(e.target.value))}>
+        <select
+          name="role"
+          value={formValues.role}
+          onChange={(e) => dispatch(getRole(e.target.value))}
+        >
+          <option value="default" disabled>
+            Selecione um tipo
+          </option>
           <option value="admin">Administrador</option>
           <option value="client">Cliente</option>
         </select>
