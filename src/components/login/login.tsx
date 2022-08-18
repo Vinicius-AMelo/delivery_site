@@ -9,11 +9,12 @@ import {
   getPassword,
   getRole,
   login,
+  handleFields,
 } from '../../features/loginForm/loginFormSlice'
 import styles from '../../scss/login.module.scss'
 import { RootState } from '../../store/store'
 import LoginForm from './loginForm/loginForm'
-import RegisterForm from './registerForm/registerForm'
+import RegistrationForm from './registrationForm/registrationForm'
 
 function Login() {
   const [signInUp, setSignInUp] = useState<string>('SignUp')
@@ -32,7 +33,7 @@ function Login() {
     clearForm()
   }, [signInUp])
 
-  function register() {
+  function registration() {
     instance
       .post('/users', {
         name: formValues.name,
@@ -42,6 +43,11 @@ function Login() {
       })
       .then((res) => {
         clearForm()
+        dispatch(handleFields('OK'))
+        setTimeout(() => {
+          setSignInUp('SignIn')
+          dispatch(handleFields(''))
+        }, 3000)
         console.log(res)
       })
       .catch((e) => console.log(e))
@@ -68,9 +74,15 @@ function Login() {
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (signInUp === 'SignUp') {
-      register()
+      if (!formValues.name) dispatch(handleFields('null fields'))
+      else if (!formValues.email) dispatch(handleFields('null fields'))
+      else if (!formValues.password) dispatch(handleFields('null fields'))
+      else if (!formValues.role) dispatch(handleFields('null fields'))
+      else registration()
     } else if (signInUp === 'SignIn') {
-      loginValidate()
+      if (!formValues.name) dispatch(handleFields('null fields'))
+      else if (!formValues.password) dispatch(handleFields('null fields'))
+      else loginValidate()
     }
   }
 
@@ -93,7 +105,7 @@ function Login() {
 
         {signInUp === 'SignIn' && <LoginForm handleSubmit={handleSubmit} />}
 
-        {signInUp === 'SignUp' && <RegisterForm handleSubmit={handleSubmit} />}
+        {signInUp === 'SignUp' && <RegistrationForm handleSubmit={handleSubmit} />}
       </aside>
     </main>
   )

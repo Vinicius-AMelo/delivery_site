@@ -28,6 +28,9 @@ function LoginForm({ handleSubmit }: any) {
           value={formValues.password}
         />
 
+        {formValues.fields === 'null fields' && (
+          <p className={styles.error}>Nenhum campo pode ficar em branco</p>
+        )}
         {formValues.logged === 'incorrect' && (
           <p className={styles.error}>Email e/ou senha não encontrados.</p>
         )}

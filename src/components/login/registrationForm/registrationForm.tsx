@@ -6,7 +6,7 @@ import styles from '../../../scss/login.module.scss'
 import { RootState } from '../../../store/store'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function RegisterForm({ handleSubmit }: any) {
+function RegistrationForm({ handleSubmit }: any) {
   const formValues = useSelector((state: RootState) => state.form)
   const dispatch = useDispatch()
   return (
@@ -46,8 +46,11 @@ function RegisterForm({ handleSubmit }: any) {
           <option value="client">Cliente</option>
         </select>
 
-        {formValues.logged === 'incorrect' && (
-          <p className={styles.error}>Email e/ou senha não encontrados.</p>
+        {formValues.fields === 'null fields' && (
+          <p className={styles.error}>Nenhum campo pode ficar em branco</p>
+        )}
+        {formValues.fields === 'OK' && (
+          <p className={styles.success}>Cadastro realizado com sucesso</p>
         )}
 
         <button type="submit">Cadastrar</button>
@@ -56,4 +59,4 @@ function RegisterForm({ handleSubmit }: any) {
   )
 }
 
-export default RegisterForm
+export default RegistrationForm
