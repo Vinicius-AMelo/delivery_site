@@ -1,8 +1,8 @@
 /* eslint-disable react/jsx-no-bind */
-import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
+import instance from '../../api/axiosInstance'
 import {
   getEmail,
   getName,
@@ -33,8 +33,8 @@ function Login() {
   }, [signInUp])
 
   function register() {
-    axios
-      .post('http://localhost/users', {
+    instance
+      .post('/users', {
         name: formValues.name,
         email: formValues.email,
         password: formValues.password,
@@ -49,8 +49,8 @@ function Login() {
 
   function loginValidate() {
     dispatch(login('idle'))
-    axios
-      .post('http://localhost/users/login', {
+    instance
+      .post('/users/login', {
         email: formValues.email,
         password: formValues.password,
       })
