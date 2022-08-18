@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-no-bind */
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -21,6 +22,7 @@ function Login() {
 
   const formValues = useSelector((state: RootState) => state.form)
   const dispatch = useDispatch()
+  const router = useRouter()
 
   function clearForm() {
     dispatch(getName(''))
@@ -64,6 +66,7 @@ function Login() {
         console.log(res)
         clearForm()
         dispatch(login('logged'))
+        router.push('/home')
       })
       .catch((e) => {
         console.log(e)
@@ -73,6 +76,7 @@ function Login() {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
+    dispatch(handleFields(''))
     if (signInUp === 'SignUp') {
       if (!formValues.name) dispatch(handleFields('null fields'))
       else if (!formValues.email) dispatch(handleFields('null fields'))
@@ -80,7 +84,7 @@ function Login() {
       else if (!formValues.role) dispatch(handleFields('null fields'))
       else registration()
     } else if (signInUp === 'SignIn') {
-      if (!formValues.name) dispatch(handleFields('null fields'))
+      if (!formValues.email) dispatch(handleFields('null fields'))
       else if (!formValues.password) dispatch(handleFields('null fields'))
       else loginValidate()
     }
