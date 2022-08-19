@@ -5,5 +5,3 @@ const instance = axios.create({
 })
 
 export default instance
-
-// baseURL: 'http://ec2-54-233-136-16.sa-east-1.compute.amazonaws.com:8080',
